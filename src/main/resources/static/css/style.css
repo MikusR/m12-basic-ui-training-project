@@ -2,6 +2,10 @@
     navigation: auto;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 body {
     font-family: sans-serif;
     max-width: 760px;
@@ -10,10 +14,17 @@ body {
 }
 
 nav {
+    display: flex;
+    align-items: start;
     background: #f1f5f9;
     padding: 0.6rem 1rem;
     border-radius: 6px;
     margin-bottom: 1.5rem;
+}
+
+.log-link {
+    margin-left: auto;
+    margin-right: 0;
 }
 
 nav a {
@@ -121,4 +132,9 @@ button {
 button:hover {
     background: #1d4ed8;
 }
-.back-link { display: inline-block; margin-top: 1rem; color: #2563eb; }
+
+.back-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #2563eb;
+}

@@ -30,11 +30,7 @@
 
 </head>
 <body>
-<nav>
-    <a th:href="@{/}">Home</a>
-    <a th:href="@{/animals}">All animals</a>
-    <a th:if="${isAdmin}" th:href="@{/animals/new}">Add animal</a>
-</nav>
+<nav th:replace="~{navigation :: navigation}">
 
 <main>
     <h1>Shelter Animals</h1>
