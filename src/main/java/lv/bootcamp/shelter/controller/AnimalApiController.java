@@ -36,6 +36,9 @@ public class AnimalApiController {
         return animalService.findAll();
     }
 
+    @Operation(summary = "Get animal by id", description = "Returns a single animal by id")
+    @ApiResponse(responseCode = "200", description = "An animal was returned successfully")
+    @ApiResponse(responseCode = "404", description = "An animal with the given id was not found")
     @GetMapping("/{id}")
     public ResponseEntity<AnimalResponse> findById(@PathVariable Long id) {
         return animalService.findById(id)
