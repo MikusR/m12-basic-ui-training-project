@@ -4,16 +4,16 @@
 
 
 <body>
-<nav th:fragment="navigation" id="navigation">
-<a th:href="@{/}">Home</a>
-<a th:href="@{/animals}">All animals</a>
-<a th:href="@{/animals/new}" th:if="${isAdmin}">Add animal</a>
+<nav id="navigation" th:fragment="navigation">
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/animals}">All animals</a>
+    <a th:href="@{/animals/new}" th:if="${isAdmin}">Add animal</a>
 
-<a class="log-link" href="javascript: document.logoutForm.submit()" th:if="${isAdmin || isUser}"> Logout</a>
-<form method="post" name="logoutForm" th:action="@{/logout}" th:hidden="true" th:if="${isAdmin || isUser}">
-    <input hidden type="submit" value="Sign Out"/>
-</form>
-<a class="log-link" th:href="@{/login}" th:unless="${isAdmin || isUser}">Login</a>
+    <a class="log-link" href="javascript: document.logoutForm.submit()" th:if="${isAdmin || isUser}"> Logout</a>
+    <form method="post" name="logoutForm" th:action="@{/logout}" th:hidden="true" th:if="${isAdmin || isUser}">
+        <input hidden type="submit" value="Sign Out"/>
+    </form>
+    <a class="log-link" th:href="@{/login}" th:unless="${isAdmin || isUser}">Login</a>
 </nav>
 </body>
 
