@@ -1,5 +1,6 @@
 package lv.bootcamp.shelter.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lv.bootcamp.shelter.form.AnimalForm;
 import lv.bootcamp.shelter.model.AnimalType;
@@ -21,15 +22,15 @@ public class AnimalPageController {
     }
 
     @GetMapping("/animals")
-    public String listAnimals(Model model) {
-        model.addAttribute("isUser", true);
+    public String listAnimals(Model model, HttpServletRequest request) {
+        model.addAttribute("isUser", request.isUserInRole("USER"));
         model.addAttribute("animals", animalService.findAll());
         return "animals";
     }
 
     @GetMapping("/animals/new")
-    public String newAnimal(Model model) {
-        model.addAttribute("isAdmin", true);
+    public String newAnimal(Model model, HttpServletRequest request) {
+        model.addAttribute("isAdmin", request.isUserInRole("ADMIN"));
         model.addAttribute("types", AnimalType.values());
         model.addAttribute("form", new AnimalForm(null, null, null, null, null, null));
         return "animals-new";
