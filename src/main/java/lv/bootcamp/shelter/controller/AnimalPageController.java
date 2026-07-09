@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class AnimalPageController {
     private final AnimalService animalService;
 
+    @GetMapping("/")
     public String index() {
-        return "animals";
+        return "index";
     }
 
     @GetMapping("/animals")
