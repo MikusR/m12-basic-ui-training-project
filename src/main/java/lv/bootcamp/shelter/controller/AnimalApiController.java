@@ -1,12 +1,15 @@
 package lv.bootcamp.shelter.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lv.bootcamp.shelter.dto.AnimalCreateRequest;
 import lv.bootcamp.shelter.dto.AnimalResponse;
 import lv.bootcamp.shelter.service.AnimalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +20,15 @@ import java.util.List;
  * Returns JSON — does not render HTML pages.
  */
 @RequiredArgsConstructor
+@Tag(name = "Animals", description = "Manage animals in the shelter")
 @RestController
 @RequestMapping("/api/animals")
 public class AnimalApiController {
 
     private final AnimalService animalService;
 
+    @Operation(summary = "List all animals in the shelter", description = "Returns a list of all animals current and adopted")
+    @ApiResponse(responseCode = "200", description = "List of animals")
     @GetMapping
     public List<AnimalResponse> findAll() {
         return animalService.findAll();
