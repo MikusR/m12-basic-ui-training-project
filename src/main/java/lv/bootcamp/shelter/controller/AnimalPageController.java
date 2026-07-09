@@ -2,6 +2,7 @@ package lv.bootcamp.shelter.controller;
 
 import lombok.RequiredArgsConstructor;
 import lv.bootcamp.shelter.form.AnimalForm;
+import lv.bootcamp.shelter.model.AnimalType;
 import lv.bootcamp.shelter.service.AnimalService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,8 @@ public class AnimalPageController {
 
     @GetMapping("/animals/new")
     public String newAnimal(Model model) {
+        model.addAttribute("isAdmin", true);
+        model.addAttribute("types", AnimalType.values());
         model.addAttribute("form", new AnimalForm(null, null, null, null, null, null));
         return "animals-new";
     }

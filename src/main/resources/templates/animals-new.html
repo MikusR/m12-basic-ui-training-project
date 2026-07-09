@@ -45,9 +45,9 @@
   <!-- Navigation — same on every page -->
   <!-- ADMIN-only: only render the "Add animal" link when isAdmin is true -->
   <nav>
-    <a href="/static">Home</a>
-    <a href="/animals">All animals</a>
-    <a href="/animals/new">Add animal</a>
+    <a th:href="@{/}">Home</a>
+    <a th:href="@{/animals}">All animals</a>
+    <a th:if="${isAdmin}" th:href="@{/animals/new}">Add animal</a>
   </nav>
 
   <main>
