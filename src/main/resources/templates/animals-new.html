@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="same-origin" name="view-transition"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Shelter — Add Animal</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main>
+    <h1>Add a new animal</h1>
+
+    <form method="post" th:action="@{/animals}" th:object="${form}">
+
+        <label for="name">Name</label>
+        <input id="name" placeholder="e.g. Milo" required th:field="*{name}" type="text">
+
+        <label for="type">Type</label>
+        <select id="type" th:field="*{type}">
+            <option value="">— choose —</option>
+            <option th:each="type : ${types}" th:text="${type}" th:value="${type}"></option>
+        </select>
+
+        <label for="breed">Breed</label>
+        <input id="breed" placeholder="e.g. Siamese" th:field="*{breed}" type="text">
+
+        <label for="age">Age (years)</label>
+        <input id="age" min="0" placeholder="e.g. 3" th:field="*{age}" type="number">
+
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="A short description of the animal's personality" rows="3"
+                  th:field="*{description}"></textarea>
+
+        <label for="imageUrl">Image filename</label>
+        <input id="imageUrl" placeholder="luna.jpg" th:field="*{imageUrl}"
+               type="text">
+
+        <button type="submit">Add animal</button>
+    </form>
+
+    <a class="back-link" th:href="@{/animals}">← Back to list</a>
+</main>
+
+</body>
+</html>

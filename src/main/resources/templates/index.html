@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="same-origin" name="view-transition"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Shelter — Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main>
+    <h1>Welcome to the Shelter</h1>
+    <p>We care for cats, dogs, and other animals looking for a loving home.</p>
+    <p>Browse our available animals or register a new arrival.</p>
+    <a class="cta" th:href="@{/animals}">See all animals</a>
+</main>
+
+</body>
+</html>
