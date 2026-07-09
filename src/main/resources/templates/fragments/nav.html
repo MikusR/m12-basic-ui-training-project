@@ -4,7 +4,7 @@
 
 
 <body>
-<nav id="navigation" th:fragment="navigation">
+<nav th:fragment="nav">
     <a th:href="@{/}">Home</a>
     <a th:href="@{/animals}">All animals</a>
     <a th:href="@{/animals/new}" th:if="${isAdmin}">Add animal</a>
