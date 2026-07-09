@@ -2,18 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="view-transition" content="same-origin" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shelter — Home</title>
-  <style>
-    body { font-family: sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
-    nav { background: #f1f5f9; padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 1.5rem; }
-    nav a { margin-right: 1rem; text-decoration: none; color: #2563eb; }
-    nav a:hover { text-decoration: underline; }
-    h1 { border-bottom: 2px solid #333; padding-bottom: 0.4rem; }
-    .cta { display: inline-block; margin-top: 1rem; padding: 0.6rem 1.2rem;
-           background: #2563eb; color: white; border-radius: 4px; text-decoration: none; }
-    .cta:hover { background: #1d4ed8; }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 
@@ -23,7 +15,6 @@
     <a th:href="@{/}">Home</a>
     <a th:href="@{/animals}">All animals</a>
     <a th:if="${isAdmin}" th:href="@{/animals/new}">Add animal</a>
-<!--    <a sec:authorize="hasRole('ADMIN')" th:href="@{/animals/new}">Add animal</a>-->
   </nav>
 
   <main>

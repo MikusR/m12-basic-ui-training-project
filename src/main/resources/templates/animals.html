@@ -1,23 +1,6 @@
 <!DOCTYPE html>
 <!--
-  ╔══════════════════════════════════════════════════════════════════╗
-  ║  TASK A — ADD THYMELEAF                                          ║
-  ╠══════════════════════════════════════════════════════════════════╣
-  ║  This is a plain static HTML file — the animal list is           ║
-  ║  hard-coded and the form does not work yet.                      ║
-  ║                                                                  ║
-  ║  Your job:                                                       ║
-  ║  1. Move this file to:                                           ║
-  ║       src/main/resources/templates/animals.html                  ║
-  ║  2. Add the Thymeleaf namespace to <html>:                       ║
-  ║       xmlns:th="http://www.thymeleaf.org"                        ║
-  ║  3. Create AnimalPageController (in controller/)                 ║
-  ║       @GetMapping("/animals")  → pass List<AnimalResponse>       ║
-  ║       @GetMapping("/animals/new") → pass empty AnimalForm        ║
-  ║       @PostMapping("/animals") → call service, redirect          ║
-  ║  4. Replace the hard-coded <li> elements with th:each            ║
-  ║  5. Add th:src / th:alt to the <img> tags                        ║
-  ║     Keep width/height/object-fit as plain HTML attributes        ║
+
   ║  6. Update the form action with th:action and bind               ║
   ║     fields with th:object / th:field                             ║
   ║                                                                  ║
@@ -37,114 +20,14 @@
   ║     sees the bare "ADOPTED" status.                              ║
   ╚══════════════════════════════════════════════════════════════════╝
 -->
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="view-transition" content="same-origin"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shelter Animals</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            max-width: 760px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
-        nav {
-            background: #f1f5f9;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            margin-bottom: 1.5rem;
-        }
-
-        nav a {
-            margin-right: 1rem;
-            text-decoration: none;
-            color: #2563eb;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.4rem;
-        }
-
-        h2 {
-            margin-top: 2rem;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-        }
-
-        li img {
-            width: 300px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .info {
-            flex: 1;
-        }
-
-        .status-available {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-adopted {
-            color: #999;
-            font-weight: bold;
-        }
-
-        form {
-            display: grid;
-            gap: 0.5rem;
-            max-width: 480px;
-            margin-top: 1rem;
-        }
-
-        label {
-            font-weight: bold;
-        }
-
-        input, select, textarea {
-            padding: 0.4rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        button {
-            padding: 0.6rem 1.2rem;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: fit-content;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-    </style>
 </head>
 <body>
 <nav>
@@ -153,7 +36,7 @@
     <a th:if="${isAdmin}" th:href="@{/animals/new}">Add animal</a>
     <!--    <a sec:authorize="hasRole('ADMIN')" th:href="@{/animals/new}">Add animal</a>-->
 </nav>
-<pre th:text="${animals}"></pre>
+
 <main>
     <h1>Shelter Animals</h1>
     <section aria-label="Animal list">
@@ -166,8 +49,10 @@
                         th:text="${animal.breed}"></span> | Age: <span th:text="${animal.age}"></span>
                     <span th:class="|status-${#strings.toLowerCase(animal.status)}|" th:text="${animal.status}"></span>
                     <p th:text="${animal.description}"></p>
-                    <!-- USER-only: show when isUser && status == AVAILABLE -->
-                    <button type="button" th:if="${animal.status} == 'AVAILABLE'">Adopt</button>
+
+                    <form th:action="@{/api/animals/{id}/adopt(id=${animal.id})}" method="POST" style="display:inline;">
+                        <button type="submit" th:if="${isUser && #strings.toString(animal.status) == 'AVAILABLE'}">Adopt</button>
+                    </form>
                 </div>
             </li>
         </ul>

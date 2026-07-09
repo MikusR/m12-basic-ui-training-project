@@ -1,5 +1,6 @@
 package lv.bootcamp.shelter.controller;
 
+import lombok.RequiredArgsConstructor;
 import lv.bootcamp.shelter.form.AnimalForm;
 import lv.bootcamp.shelter.service.AnimalService;
 import org.springframework.stereotype.Controller;
@@ -9,12 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class AnimalPageController {
     private final AnimalService animalService;
-
-    public AnimalPageController(AnimalService animalService) {
-        this.animalService = animalService;
-    }
 
     public String index() {
         return "animals";
@@ -22,13 +20,14 @@ public class AnimalPageController {
 
     @GetMapping("/animals")
     public String listAnimals(Model model) {
+        model.addAttribute("isUser", true);
         model.addAttribute("animals", animalService.findAll());
         return "animals";
     }
 
     @GetMapping("/animals/new")
     public String newAnimal(Model model) {
-        model.addAttribute("form", new AnimalForm(null, null, null, null, null,null));
+        model.addAttribute("form", new AnimalForm(null, null, null, null, null, null));
         return "animals-new";
     }
 
