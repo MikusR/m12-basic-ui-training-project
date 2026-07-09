@@ -56,10 +56,6 @@ h1 {
     background: #1d4ed8;
 }
 
-@view-transition {
-    navigation: auto;
-}
-
 h2 {
     margin-top: 2rem;
 }

@@ -17,20 +17,21 @@
     <section aria-label="Animal list">
         <ul>
             <li th:each="animal : ${animals}">
-                <img alt="${animal.name}" height="200"
-                     style="object-fit: cover;" th:src="${animal.imageUrl}" width="300">
+                <img height="200" style="object-fit: cover;"
+                     th:alt="${animal.name}" th:src="${animal.imageUrl}" width="300">
                 <div class="info">
                     <strong th:text="${animal.name}"></strong> — <span th:text="${animal.type}"></span> | <span
                         th:text="${animal.breed}"></span> | Age: <span th:text="${animal.age}"></span>
                     <span th:class="|status-${#strings.toLowerCase(animal.status)}|" th:text="${animal.status}"></span>
-                    <p th:if="${isAdmin}" th:text="${animal.adoptionNote}"></p>
+                    <p th:if="${isAdmin && animal.adoptionNote != null}" th:text="${animal.adoptionNote}"></p>
                     <p th:text="${animal.description}"></p>
 
                     <form method="POST"
                           onsubmit="event.preventDefault(); fetch(this.action, { method: 'POST' }).then(res => { if (res.ok) { location.reload(); } else { alert('Adoption failed'); } });"
                           style="display:inline;"
-                          th:action="@{/api/animals/{id}/adopt(id=${animal.id})}">
-                        <button th:if="${isUser && #strings.toString(animal.status) == 'AVAILABLE'}" type="submit">
+                          th:action="@{/api/animals/{id}/adopt(id=${animal.id})}"
+                          th:if="${isUser && #strings.toString(animal.status) == 'AVAILABLE'}">
+                        <button type="submit">
                             Adopt
                         </button>
                     </form>
