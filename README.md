@@ -1,5 +1,10 @@
 # Shelter Starter
 
+## Finished Tasks
+
+- Practical Task A - Thymeleaf UI Wiring
+- Practical Task B - OpenAPI Documentation
+
 ## Purpose
 
 This project is a simple sample application for learning basic UI development with Java and Spring Boot. It is intended for coursework, experimentation, and local practice.
