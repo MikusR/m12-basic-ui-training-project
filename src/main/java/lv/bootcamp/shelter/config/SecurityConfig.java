@@ -104,6 +104,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/animals/adopted").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/animals/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/animals/new").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/animals", "/animals/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/animals/*/adopt").hasRole("USER")
