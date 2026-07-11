@@ -2,7 +2,6 @@ package lv.bootcamp.shelter.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lv.bootcamp.shelter.dto.AnimalResponse;
 import lv.bootcamp.shelter.form.AnimalForm;
@@ -18,6 +17,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,17 +39,10 @@ public class AnimalPageController {
     }
 
     @GetMapping("/animals/{id}")
-    public String animalDetails(
-        Model model,
-        HttpServletRequest request,
-        @PathVariable Long id
-    ) {
+    public String animalDetails(Model model, HttpServletRequest request, @PathVariable Long id) {
         Optional<AnimalResponse> animalResponse = animalService.findById(id);
         if (animalResponse.isEmpty()) {
-            throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                "Animal not found"
-            );
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Animal not found");
         }
         model.addAttribute("animal", animalResponse.get());
         return "animal";
@@ -56,44 +51,29 @@ public class AnimalPageController {
     @GetMapping("/animals/new")
     public String newAnimal(Model model, HttpServletRequest request) {
         if (!request.isUserInRole("ADMIN")) {
-            return "redirect:animals";
+            return "redirect:/animals";
         }
         model.addAttribute("types", AnimalType.values());
-        model.addAttribute(
-            "form",
-            new AnimalForm(null, null, null, null, null, null)
-        );
+        model.addAttribute("form", new AnimalForm(null, null, null, null, null, null));
         return "animals-new";
     }
 
     @PostMapping("/animals")
-    public String createAnimal(
-        @ModelAttribute("form") @Valid AnimalForm form,
-        BindingResult bindingResult,
-        Model model
-    ) {
+    public String createAnimal(@ModelAttribute("form") @Valid AnimalForm form, BindingResult bindingResult, Model model, RedirectAttributes redirectAttrs) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("types", AnimalType.values());
             return "animals-new";
         }
         animalService.createFromForm(form);
-        return "redirect:animals";
+        redirectAttrs.addFlashAttribute("message", "Animal created!");
+        return "redirect:/animals";
     }
 
     @ModelAttribute
-    public void addSecurityAttributes(
-        Model model,
-        Authentication authentication
-    ) {
+    public void addSecurityAttributes(Model model, Authentication authentication) {
         if (authentication != null) {
-            boolean isAdmin = authentication
-                .getAuthorities()
-                .stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
-            boolean isUser = authentication
-                .getAuthorities()
-                .stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
+            boolean isAdmin = authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+            boolean isUser = authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_USER"));
 
             model.addAttribute("isAdmin", isAdmin);
             model.addAttribute("isUser", isUser);

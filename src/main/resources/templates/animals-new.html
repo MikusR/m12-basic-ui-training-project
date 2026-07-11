@@ -18,27 +18,39 @@
 
         <label for="name">Name</label>
         <input id="name" placeholder="e.g. Milo" required th:field="*{name}" type="text">
+        test
+        <span class="error"
+              th:errors="*{name}"></span>
 
         <label for="type">Type</label>
         <select id="type" th:field="*{type}">
             <option value="">— choose —</option>
             <option th:each="type : ${types}" th:text="${type}" th:value="${type}"></option>
         </select>
+        <span class="error"
+              th:errors="*{type}"></span>
 
         <label for="breed">Breed</label>
         <input id="breed" placeholder="e.g. Siamese" th:field="*{breed}" type="text">
+        <span class="error"
+              th:errors="*{breed}"></span>
 
         <label for="age">Age (years)</label>
         <input id="age" min="0" placeholder="e.g. 3" th:field="*{age}" type="number">
+        <span class="error"
+              th:errors="*{age}"></span>
 
         <label for="description">Description</label>
         <textarea id="description" placeholder="A short description of the animal's personality" rows="3"
                   th:field="*{description}"></textarea>
+        <span class="error"
+              th:errors="*{description}"></span>
 
         <label for="imageUrl">Image filename</label>
         <input id="imageUrl" placeholder="luna.jpg" th:field="*{imageUrl}"
                type="text">
-
+        <span class="error"
+              th:errors="*{imageUrl}"></span>
         <button type="submit">Add animal</button>
     </form>
 
