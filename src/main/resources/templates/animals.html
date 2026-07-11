@@ -3,7 +3,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta content="same-origin" name="view-transition"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Shelter Animals</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
@@ -11,7 +10,8 @@
 </head>
 <body>
 <div th:replace="~{fragments/nav :: nav}"></div>
-
+<p role="status" th:if="${message}"
+   th:text="${message}"></p>
 <main>
     <h1>Shelter Animals</h1>
     <section aria-label="Animal list">
@@ -20,7 +20,10 @@
                 <img height="200" style="object-fit: cover;"
                      th:alt="${animal.name}" th:src="${animal.imageUrl}" width="300">
                 <div class="info">
-                    <strong th:text="${animal.name}"></strong> — <span th:text="${animal.type}"></span> | <span
+                    <a th:href="@{/animals/{id}(id=${animal.id})}"><strong th:text="${animal.name}"></strong><span
+                            th:classappend="${animal.status.name() == 'ADOPTED'} ? 'badge-adopted' : 'badge-available'"></span></a>.
+
+                    — <span th:text="${animal.type}"></span> | <span
                         th:text="${animal.breed}"></span> | Age: <span th:text="${animal.age}"></span>
                     <span th:class="|status-${#strings.toLowerCase(animal.status)}|" th:text="${animal.status}"></span>
                     <p th:if="${isAdmin && animal.adoptionNote != null}" th:text="${animal.adoptionNote}"></p>
