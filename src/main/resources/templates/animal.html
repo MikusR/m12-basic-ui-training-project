@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Shelter Animals</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+</head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<main>
+    <h1 th:text="|${animal.name} details|"></h1>
+    <a class="back-link" th:href="@{/animals}">← Back to list</a>
+    <section aria-label="Animal details">
+        <ul>
+            <li>
+                <img height="200" style="object-fit: cover;"
+                     th:alt="${animal.name}" th:src="${animal.imageUrl}" width="300">
+                <div class="info">
+                    <h3 th:text="${animal.name}"></h3>
+                    <p th:text="|Type: ${animal.type}|"></p>
+                    <p th:text="|Breed: ${animal.breed}|"></p>
+                    <p th:text="|Age: ${animal.age}|"></p>
+
+                    <p th:class="|status-${#strings.toLowerCase(animal.status)}|"
+                       th:text="|Status: ${animal.status}|"></p>
+                    <p th:if="${isAdmin && animal.adoptionNote != null}"
+                       th:text="|Adoption note: ${animal.adoptionNote}|"></p>
+                    <p th:text="|Description: ${animal.description}|"></p>
+
+                    <form method="POST"
+                          onsubmit="event.preventDefault();
+                fetch(this.action, { method: 'POST' }).then(res => {
+                  if (res.ok) {
+                    if (document.startViewTransition) {
+                      document.startViewTransition(() => location.reload());
+                    } else {
+                      location.reload();
+                    }
+                  } else {
+                    alert('Adoption failed');
+                  }
+                });"
+                          style="display:inline;"
+                          th:action="@{/api/animals/{id}/adopt(id=${animal.id})}"
+                          th:if="${isUser && #strings.toString(animal.status) == 'AVAILABLE'}">
+                        <button type="submit">
+                            Adopt
+                        </button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+</html>

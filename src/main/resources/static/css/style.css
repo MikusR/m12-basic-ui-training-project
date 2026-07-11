@@ -1,5 +1,6 @@
 @view-transition {
     navigation: auto;
+
 }
 
 [hidden] {
@@ -20,6 +21,7 @@ nav {
     padding: 0.6rem 1rem;
     border-radius: 6px;
     margin-bottom: 1.5rem;
+    view-transition-name: main-nav;
 }
 
 .log-link {
